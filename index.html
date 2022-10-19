@@ -18,17 +18,20 @@
 			<div class="wrapper">
 				<h1>Super Duper Stopwatch</h1>
 				<p class="stopwatch__timer">
-					<span class="hours">00</span>:<span class="mins">00</span>:<span
-						class="seconds"
+					<span class="mins">00</span>:<span class="seconds">00</span>,<span
+						class="tens"
 						>00</span
-					>:<span class="tens">00</span>
+					>
 				</p>
 
 				<div class="stopwatch__buttons">
+					<button class="btn btn-lap" disabled>Lap</button>
+					<button class="btn btn-reset">Reset</button>
 					<button class="btn btn-start">Start</button>
 					<button class="btn btn-stop">Stop</button>
-					<button class="btn btn-reset">Reset</button>
 				</div>
+
+				<ul class="stopwatch__laps-list" id="laps"></ul>
 			</div>
 		</section>
 	</body>

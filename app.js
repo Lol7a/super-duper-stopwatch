@@ -1,4 +1,4 @@
-const getHours = document.querySelector(".hours");
+const timer = document.querySelector(".stopwatch__timer");
 const getMins = document.querySelector(".mins");
 const getSeconds = document.querySelector(".seconds");
 const getTens = document.querySelector(".tens");
@@ -6,12 +6,14 @@ const getTens = document.querySelector(".tens");
 const startBtn = document.querySelector(".btn-start");
 const stopBtn = document.querySelector(".btn-stop");
 const resetBtn = document.querySelector(".btn-reset");
+const lapBtn = document.querySelector(".btn-lap");
 
-let hours = 00;
 let mins = 00;
 let seconds = 00;
 let tens = 00;
 let interval;
+let lapInterval;
+let lapNow = [];
 
 function startStopwatch() {
 	tens++;
@@ -42,18 +44,28 @@ function startStopwatch() {
 		getMins.innerHTML = mins;
 	}
 	if (mins > 59) {
-		hours++;
-		getHours.innerHTML = `0${hours}`;
 		mins = 00;
 		getMins.innerHTML = mins;
 	}
 
-	if (hours > 9) {
-		getHours.innerHTML = hours;
-	}
-	if (hours < 23) {
-		hours = 00;
-		getHours.innerHTML = hours;
+	lapBtn.disabled = false;
+}
+
+function toggleBtn(element) {
+	if (element.classList.contains("btn-start")) {
+		element.style.display = "none";
+		stopBtn.style.display = "block";
+		resetBtn.style.display = "none";
+		lapBtn.style.display = "block";
+	} else if (element.classList.contains("btn-stop")) {
+		element.style.display = "none";
+		lapBtn.style.display = "none";
+		startBtn.style.display = "block";
+		resetBtn.style.display = "block";
+	} else if (element.classList.contains("btn-reset")) {
+		element.style.display = "none";
+		lapBtn.style.display = "block";
+		startBtn.style.display = "block";
 	}
 }
 
@@ -61,27 +73,39 @@ const startHandler = () => {
 	console.log("Start Stopwatch");
 	clearInterval(interval);
 	interval = setInterval(startStopwatch, 10);
+	toggleBtn(startBtn);
 };
 
 const stopHandler = () => {
 	console.log("Stop Stopwatch");
 	clearInterval(interval);
+	console.log(timer.textContent);
+	toggleBtn(stopBtn);
 };
 
 const resetHandler = () => {
 	console.log("Reset Stopwatch");
 	clearInterval(interval);
-	hours = `0${0}`;
 	mins = `0${0}`;
 	seconds = `0${0}`;
 	tens = `0${0}`;
 
-	getHours.innerHTML = hours;
 	getMins.innerHTML = mins;
 	getSeconds.innerHTML = seconds;
 	getTens.innerHTML = tens;
+
+	toggleBtn(resetBtn);
+	lapBtn.disabled = true;
 };
 
+const lapHandler = () => {
+	// console.log("Lap");
+	// clearInterval(lapInterval);
+	// lapInterval = setInterval(startStopwatch, 10);
+	// lapRecord.innerHTML = +lapInterval;
+};
+
+resetBtn.addEventListener("click", resetHandler);
 startBtn.addEventListener("click", startHandler);
 stopBtn.addEventListener("click", stopHandler);
-resetBtn.addEventListener("click", resetHandler);
+lapBtn.addEventListener("click", lapHandler);
